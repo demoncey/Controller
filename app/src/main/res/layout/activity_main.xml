@@ -25,4 +25,14 @@
         android:text="turn off"
         app:layout_constraintLeft_toRightOf="@+id/turn_on"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/devices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="16dp"
+        android:text="get devices"
+        app:layout_constraintLeft_toRightOf="@+id/turn_off"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
