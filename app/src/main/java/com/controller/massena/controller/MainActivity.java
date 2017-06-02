@@ -80,6 +80,11 @@ public class MainActivity extends Activity {
         dev_list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BluetoothDevice device=(BluetoothDevice) parent.getAdapter().getItem(position);
+                if(device.getBondState()==device.BOND_BONDED){
+                    Toast.makeText(getApplicationContext(), device.getName(),Toast.LENGTH_LONG).show();
+                }
+
 
             }
         } );
@@ -107,11 +112,11 @@ public class MainActivity extends Activity {
 
     public void list(View v) {
         pairedDevices = ba.getBondedDevices();
-        ArrayList list = new ArrayList();
-        for(BluetoothDevice bt : pairedDevices) list.add(bt.getName()+" "+bt.getAddress());
+        ArrayList<BluetoothDevice> list = new ArrayList();
+        for(BluetoothDevice bt : pairedDevices) list.add(bt);                    //bt.getName()+" "+bt.getAddress());
         Toast.makeText(getApplicationContext(), "Showing Paired Devices",Toast.LENGTH_SHORT).show();
 
-        final ArrayAdapter adapter = new  ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<BluetoothDevice> adapter = new  ArrayAdapter<BluetoothDevice>(this,android.R.layout.simple_list_item_1, list);
 
         dev_list.setAdapter(adapter);
 
