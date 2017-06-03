@@ -13,18 +13,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class MainActivity extends Activity {
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
-        private BluetoothAdapter ba;
-        private Set<BluetoothDevice> pairedDevices;
-        Button turn_on,turn_off,devices,visible;
-        ListView dev_list;
+public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "controller.MESSAGE";
+
+    private BluetoothAdapter ba;
+    private Set<BluetoothDevice> pairedDevices;
+    Button turn_on,turn_off,devices,visible;
+    ListView dev_list;
 
 
 
@@ -42,10 +46,6 @@ public class MainActivity extends Activity {
         dev_list = (ListView)findViewById(R.id.dev_list);
         visible = (Button)findViewById(R.id.visible);
 
-
-        //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        //filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        //registerReceiver(MydeviceReceiver, filter);
 
         turn_on.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -80,12 +80,7 @@ public class MainActivity extends Activity {
         dev_list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BluetoothDevice device=(BluetoothDevice) parent.getAdapter().getItem(position);
-                if(device.getBondState()==device.BOND_BONDED){
-                    Toast.makeText(getApplicationContext(), device.getName(),Toast.LENGTH_LONG).show();
-                }
-
-
+                connect(parent,view,position,id);
             }
         } );
     }
@@ -119,6 +114,23 @@ public class MainActivity extends Activity {
         final ArrayAdapter<BluetoothDevice> adapter = new  ArrayAdapter<BluetoothDevice>(this,android.R.layout.simple_list_item_1, list);
 
         dev_list.setAdapter(adapter);
+
+
+
+    }
+
+    public void connect(AdapterView<?> parent, View view, int position, long id) {
+        BluetoothDevice device=(BluetoothDevice) parent.getAdapter().getItem(position);
+        if(device.getBondState()==device.BOND_BONDED){
+            Toast.makeText(getApplicationContext(), device.getName(),Toast.LENGTH_LONG).show();
+        }
+
+        Intent intent = new Intent(this, ConnectActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, device);
+        startActivity(intent);
+
+
+
 
 
 
