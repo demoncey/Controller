@@ -121,17 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void connect(AdapterView<?> parent, View view, int position, long id) {
         BluetoothDevice device=(BluetoothDevice) parent.getAdapter().getItem(position);
-        if(device.getBondState()==device.BOND_BONDED){
-            Toast.makeText(getApplicationContext(), device.getName(),Toast.LENGTH_LONG).show();
-        }
-
         Intent intent = new Intent(this, ConnectActivity.class);
         intent.putExtra(EXTRA_MESSAGE, device);
         startActivity(intent);
-
-
-
-
 
 
     }
